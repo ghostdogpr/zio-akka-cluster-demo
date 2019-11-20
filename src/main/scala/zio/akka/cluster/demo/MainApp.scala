@@ -13,7 +13,7 @@ object MainApp extends App {
   case class Join(name: String)                 extends ChatMessage
   case class Leave(name: String)                extends ChatMessage
 
-  override def run(args: List[String]): ZIO[Environment, Nothing, Int] =
+  override def run(args: List[String]): ZIO[ZEnv, Nothing, Int] =
     Managed
       .make(Task(ActorSystem("Chat")))(sys => Task(sys.terminate()).ignore)
       .use(
@@ -29,7 +29,7 @@ object MainApp extends App {
             _        <- joinChat(name, room, actorSystem, sharding)
           } yield 0
       )
-      .catchAll(e => console.putStrLn(e.toString).const(1))
+      .catchAll(e => console.putStrLn(e.toString).as(1))
 
   def chatroomBehavior(pubSub: Publisher[String])(msg: ChatMessage): ZIO[Entity[List[String]], Nothing, Unit] =
     for {

@@ -5,5 +5,5 @@ name := "zio-akka-cluster-demo"
 scalaVersion := mainScala
 
 libraryDependencies ++= Seq(
-  "dev.zio" %% "zio-akka-cluster" % "0.1.0"
+  "dev.zio" %% "zio-akka-cluster" % "0.1.8"
 )
